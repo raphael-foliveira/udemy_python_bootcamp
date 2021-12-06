@@ -67,7 +67,7 @@ def play():
 
     check_score(user_score, dealer_score)
 
-    while user_score <= 21:
+    while user_score < 21:
         print("Do you want to draw another card?")
         user_choice = input("(y)es or (n)o: ")
         if user_choice == "y":
