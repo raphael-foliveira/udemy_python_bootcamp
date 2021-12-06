@@ -5,11 +5,11 @@ as cartas k, q e j valem 10
 o às pode valer 11 ou 1
 """
 from random import choice
-deck = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
 
-def deal_card():
+def deal_card(deck):
     card = choice(deck)
+    deck.remove(card)
     return card
 
 
@@ -58,8 +58,12 @@ def check_score(user_score, dealer_score):
 
 
 def play():
-    user_hand = [deal_card() for _ in range(2)]
-    dealer_hand = [deal_card() for _ in range(2)]
+    play_deck = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+                 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+                 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+                 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+    user_hand = [deal_card(play_deck) for _ in range(2)]
+    dealer_hand = [deal_card(play_deck) for _ in range(2)]
     user_score = calculate_initial_score(user_hand)
     dealer_score = calculate_initial_score(dealer_hand)
 
