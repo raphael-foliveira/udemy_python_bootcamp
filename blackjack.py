@@ -5,7 +5,7 @@ as cartas k, q e j valem 10
 o às pode valer 11 ou 1
 """
 from random import choice
-deck = [11, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+deck = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
 
 def deal_card():
@@ -15,8 +15,9 @@ def deal_card():
 
 def calculate_initial_score(hand: list):
     total_score = sum(hand)
-    if total_score == 21:
-        return 0
+    if 11 in hand:
+        if total_score == 21:
+            return 0
     if 11 in hand:
         if total_score > 21:
             hand.remove(11)
@@ -72,8 +73,13 @@ def play():
         user_choice = input("(y)es or (n)o: ")
         if user_choice == "y":
             user_hand.append(deal_card())
-            print(f"Player: {user_hand}\n")
             user_score = sum(user_hand)
+            if 11 in user_hand:
+                if user_score > 21:
+                    user_hand.remove(11)
+                    user_hand.append(1)
+                    user_score = sum(user_hand)
+            print(f"Player: {user_hand}\n")
         else:
             break
 
@@ -81,13 +87,28 @@ def play():
 
     while dealer_score < 17:
         dealer_hand.append(deal_card())
-        print(f"Dealer: {dealer_hand}\n")
         dealer_score = sum(dealer_hand)
+        if 11 in dealer_hand:
+            if dealer_score > 21:
+                dealer_hand.remove(11)
+                dealer_hand.append(1)
+                dealer_score = sum(dealer_hand)
+        print(f"Dealer: {dealer_hand}\n")
 
     print(f"Player: {user_hand}\n")
     print(f"Dealer: {dealer_hand}\n")
 
     check_score(user_score, dealer_score)
+
+    if user_score > dealer_score:
+        print("You win!")
+        start_again()
+    elif user_score < dealer_score:
+        print("You lose!")
+        start_again()
+    else:
+        print("It's a draw!")
+        start_again()
 
 
 play()
