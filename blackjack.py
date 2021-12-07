@@ -4,6 +4,7 @@ Criar um jogo de blackjack
 as cartas k, q e j valem 10
 o às pode valer 11 ou 1
 """
+
 from random import choice
 
 
@@ -76,7 +77,7 @@ def play():
         print("Do you want to draw another card?")
         user_choice = input("(y)es or (n)o: ")
         if user_choice == "y":
-            user_hand.append(deal_card())
+            user_hand.append(deal_card(play_deck))
             user_score = sum(user_hand)
             if 11 in user_hand:
                 if user_score > 21:
@@ -90,7 +91,7 @@ def play():
     check_score(user_score, dealer_score)
 
     while dealer_score < 17:
-        dealer_hand.append(deal_card())
+        dealer_hand.append(deal_card(play_deck))
         dealer_score = sum(dealer_hand)
         if 11 in dealer_hand:
             if dealer_score > 21:
@@ -116,7 +117,3 @@ def play():
 
 
 play()
-
-
-
-
