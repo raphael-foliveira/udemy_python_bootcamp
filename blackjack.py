@@ -14,18 +14,12 @@ def deal_card(deck):
     return card
 
 
-def calculate_initial_score(hand: list):
+def calculate_score(hand: list):
     total_score = sum(hand)
-    if 11 in hand:
-        if total_score == 21:
-            return 0
-    if 11 in hand:
-        if total_score > 21:
-            hand.remove(11)
-            hand.append(1)
-            total_score = sum(hand)
-            return total_score
-    return total_score
+    if len(hand) == 2 and total_score == 21:
+        return 0
+    else:
+        return total_score
 
 
 def start_again():
@@ -38,24 +32,18 @@ def start_again():
 
 
 def check_score(user_score, dealer_score):
-    if user_score == 0:
+    if user_score == 0 or user_score == 21:
         print("You win!")
-        return start_again()
-    elif dealer_score == 0:
-        print("You lose!")
-        return start_again()
-    elif user_score == 21:
-        print("You win!")
-        return start_again()
-    elif dealer_score == 21:
-        print("You lose!")
-        return start_again()
+        start_again()
+    elif dealer_score == 0 or dealer_score == 21:
+        print("Dealer wins!")
+        start_again()
     elif user_score > 21:
         print("You lose!")
-        return start_again()
+        start_again()
     elif dealer_score > 21:
         print("You win!")
-        return start_again()
+        start_again()
 
 
 def play():
@@ -65,11 +53,11 @@ def play():
                  11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     user_hand = [deal_card(play_deck) for _ in range(2)]
     dealer_hand = [deal_card(play_deck) for _ in range(2)]
-    user_score = calculate_initial_score(user_hand)
-    dealer_score = calculate_initial_score(dealer_hand)
+    user_score = calculate_score(user_hand)
+    dealer_score = calculate_score(dealer_hand)
 
-    print(f"user_hand: {user_hand}")
-    print(f"dealer_hand: {dealer_hand}")
+    print(f"Player: {user_hand}")
+    print(f"Dealer: [{dealer_hand[0]}, X]")
 
     check_score(user_score, dealer_score)
 
@@ -84,7 +72,8 @@ def play():
                     user_hand.remove(11)
                     user_hand.append(1)
                     user_score = sum(user_hand)
-            print(f"Player: {user_hand}\n")
+            print(f"Player: {user_hand}")
+            print(f"Dealer: {dealer_hand}\n")
         else:
             break
 
@@ -98,10 +87,10 @@ def play():
                 dealer_hand.remove(11)
                 dealer_hand.append(1)
                 dealer_score = sum(dealer_hand)
-        print(f"Dealer: {dealer_hand}\n")
+        print(f"Dealer: {dealer_hand}")
 
-    print(f"Player: {user_hand}\n")
-    print(f"Dealer: {dealer_hand}\n")
+    print(f"Player: {user_hand}")
+    print(f"Dealer: {dealer_hand}")
 
     check_score(user_score, dealer_score)
 
@@ -109,7 +98,7 @@ def play():
         print("You win!")
         start_again()
     elif user_score < dealer_score:
-        print("You lose!")
+        print("Dealer wins!")
         start_again()
     else:
         print("It's a draw!")
